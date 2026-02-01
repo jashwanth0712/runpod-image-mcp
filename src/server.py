@@ -455,6 +455,11 @@ def get_api_info(
         return ALL_INFO
 
 
-if __name__ == "__main__":
+def main():
+    """Entry point for the MCP server."""
     logger.info("Starting Runpod Image APIs MCP Server")
     mcp.run(transport="stdio")
+
+
+if __name__ == "__main__":
+    main()

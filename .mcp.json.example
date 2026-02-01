@@ -1,11 +1,10 @@
 {
   "mcpServers": {
     "runpod-image-apis": {
-      "command": "python",
-      "args": ["-m", "src.server"],
-      "cwd": "/path/to/runpod-mcp-server",
+      "command": "uv",
+      "args": ["run", "--directory", "/path/to/runpod-image-mcp", "runpod-mcp-server"],
       "env": {
-        "RUNPOD_API_KEY": "your_actual_api_key_here",
+        "RUNPOD_API_KEY": "your_api_key_here",
         "RUNPOD_SEEDREAM_ENDPOINT_ID": "your_seedream_endpoint_id_here",
         "RUNPOD_NANO_BANANA_ENDPOINT_ID": "your_nano_banana_endpoint_id_here"
       }

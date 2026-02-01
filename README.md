@@ -4,44 +4,40 @@ An MCP server that gives Claude Code the ability to generate and edit images usi
 
 ## Prerequisites
 
-- Python 3.10+
 - [uv](https://docs.astral.sh/uv/) package manager
 - A [RunPod](https://runpod.io) API key and serverless endpoint IDs for Seedream V4 T2I and Nano Banana Pro Edit
 
-## Installation
+## Quick Start (One Command)
+
+Add the MCP server to Claude Code directly:
+
+```bash
+claude mcp add runpod-image-apis \
+  -e RUNPOD_API_KEY=your_api_key \
+  -e RUNPOD_SEEDREAM_ENDPOINT_ID=your_seedream_endpoint_id \
+  -e RUNPOD_NANO_BANANA_ENDPOINT_ID=your_nano_banana_endpoint_id \
+  -- uvx runpod-mcp-server
+```
+
+That's it. Restart Claude Code and the tools are available.
+
+## Manual Setup
+
+If you prefer to clone and run locally:
 
 ```bash
 git clone https://github.com/jashwanth0712/runpod-image-mcp.git
 cd runpod-image-mcp
-
-uv venv
-source .venv/bin/activate
-uv pip install -e .
 ```
 
-Copy the example env file and fill in your credentials:
-
-```bash
-cp .env.example .env
-```
-
-```env
-RUNPOD_API_KEY=your_api_key
-RUNPOD_SEEDREAM_ENDPOINT_ID=your_seedream_endpoint_id
-RUNPOD_NANO_BANANA_ENDPOINT_ID=your_nano_banana_endpoint_id
-```
-
-## Claude Code Configuration
-
-Add this to your project's `.mcp.json` (or `~/.claude/.mcp.json` for global config):
+Then add to your `.mcp.json` (project-level or `~/.claude/.mcp.json` for global):
 
 ```json
 {
   "mcpServers": {
     "runpod-image-apis": {
-      "command": "python",
-      "args": ["-m", "src.server"],
-      "cwd": "/path/to/runpod-image-mcp",
+      "command": "uv",
+      "args": ["run", "--directory", "/path/to/runpod-image-mcp", "runpod-mcp-server"],
       "env": {
         "RUNPOD_API_KEY": "your_api_key",
         "RUNPOD_SEEDREAM_ENDPOINT_ID": "your_seedream_endpoint_id",
@@ -52,13 +48,13 @@ Add this to your project's `.mcp.json` (or `~/.claude/.mcp.json` for global conf
 }
 ```
 
-Replace `/path/to/runpod-image-mcp` with the absolute path to this repo on your machine.
+Replace `/path/to/runpod-image-mcp` with the absolute path to the cloned repo.
 
 ## Available Tools
 
 | Tool | Description |
 |------|-------------|
-| `generate_image` | Generate images from text prompts (Seedream V4 T2I). Supports custom sizes up to 4096x4096, negative prompts, and seed control. |
+| `generate_image` | Generate images from text prompts (Seedream V4 T2I). Supports sizes up to 4096x4096, negative prompts, and seed control. |
 | `edit_image` | Edit/transform existing images (Nano Banana Pro Edit). Accepts 1-10 image URLs with 1k/2k/4k resolution options. |
 | `check_job_status` | Check the status of a previously submitted generation or editing job. |
 | `get_api_info` | Get reference info about supported parameters, sizes, pricing, and capabilities. |
@@ -85,7 +81,7 @@ What sizes does the Seedream API support?
 
 ## Troubleshooting
 
-- **Server won't start** -- Verify your `RUNPOD_API_KEY` and endpoint IDs are correct in `.env` or `.mcp.json`.
+- **Server won't start** -- Verify your `RUNPOD_API_KEY` and endpoint IDs are correct.
 - **Job timeouts** -- Increase `max_wait_seconds` or use `check_job_status` to poll manually. Large images take longer.
 - **No image URL in response** -- Check the RunPod console for job details and endpoint health.
 
