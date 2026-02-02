@@ -1,15 +1,17 @@
 # RunPod Image MCP Server
 
-An MCP server that gives Claude Code the ability to generate and edit images using RunPod's Seedream V4 and Nano Banana Pro APIs.
+An MCP server that gives **Claude Code** and **Cursor** the ability to generate and edit images using RunPod's Seedream V4 and Nano Banana Pro APIs.
 
 ## Prerequisites
 
 - [uv](https://docs.astral.sh/uv/) package manager
 - A [RunPod](https://runpod.io) API key
 
-## Quick Start (One Command)
+## Setup
 
-Add the MCP server to Claude Code directly:
+### Claude Code
+
+**Quick Start (one command):**
 
 ```bash
 claude mcp add runpod-image-apis \
@@ -17,18 +19,9 @@ claude mcp add runpod-image-apis \
   -- uvx runpod-mcp-server
 ```
 
-That's it. Restart Claude Code and the tools are available.
+Restart Claude Code and the tools are available.
 
-## Manual Setup
-
-If you prefer to clone and run locally:
-
-```bash
-git clone https://github.com/jashwanth0712/runpod-image-mcp.git
-cd runpod-image-mcp
-```
-
-Then add to your `.mcp.json` (project-level or `~/.claude/.mcp.json` for global):
+**Manual setup** (clone and run locally): add to `.mcp.json` (project-level or `~/.claude/.mcp.json` for global):
 
 ```json
 {
@@ -46,6 +39,72 @@ Then add to your `.mcp.json` (project-level or `~/.claude/.mcp.json` for global)
 
 Replace `/path/to/runpod-image-mcp` with the absolute path to the cloned repo.
 
+### Cursor
+
+**Quick Start:** create or edit your MCP config and add the server.
+
+- **Project-only:** create `.cursor/mcp.json` in your project root.
+- **All projects:** create `~/.cursor/mcp.json` in your home directory.
+
+**If using uvx** (no clone needed):
+
+```json
+{
+  "mcpServers": {
+    "runpod-image-apis": {
+      "command": "uvx",
+      "args": ["runpod-mcp-server"],
+      "env": {
+        "RUNPOD_API_KEY": "your_api_key"
+      }
+    }
+  }
+}
+```
+
+**If running from a cloned repo:**
+
+```bash
+git clone https://github.com/jashwanth0712/runpod-image-mcp.git
+cd runpod-image-mcp
+```
+
+Then use one of the configs below.
+
+In **project** `.cursor/mcp.json` (use `${workspaceFolder}` so it works for any project that contains the clone):
+
+```json
+{
+  "mcpServers": {
+    "runpod-image-apis": {
+      "command": "uv",
+      "args": ["run", "--directory", "${workspaceFolder}", "runpod-mcp-server"],
+      "env": {
+        "RUNPOD_API_KEY": "your_api_key"
+      }
+    }
+  }
+}
+```
+
+In **global** `~/.cursor/mcp.json`, use the absolute path to the repo:
+
+```json
+{
+  "mcpServers": {
+    "runpod-image-apis": {
+      "command": "uv",
+      "args": ["run", "--directory", "/path/to/runpod-image-mcp", "runpod-mcp-server"],
+      "env": {
+        "RUNPOD_API_KEY": "your_api_key"
+      }
+    }
+  }
+}
+```
+
+Replace `/path/to/runpod-image-mcp` with the actual path. Restart Cursor (or reload the window) so the new MCP server is picked up.
+
 ## Available Tools
 
 | Tool | Description |
@@ -57,7 +116,7 @@ Replace `/path/to/runpod-image-mcp` with the absolute path to the cloned repo.
 
 ## Usage Examples
 
-Once configured, just ask Claude naturally:
+Once configured, ask Claude or Cursor naturally:
 
 ```
 Generate a photorealistic sunset over snow-capped mountains with dramatic clouds
