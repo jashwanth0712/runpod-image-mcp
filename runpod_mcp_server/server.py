@@ -8,6 +8,8 @@ from mcp.server.fastmcp import FastMCP
 from .config import RunpodConfig
 from .runpod_client import RunpodClient
 from .constants import (
+    SEEDREAM_ENDPOINT_ID,
+    NANO_BANANA_ENDPOINT_ID,
     SEEDREAM_MIN_SIZE,
     SEEDREAM_MAX_SIZE,
     SEEDREAM_DEFAULT_SIZE,
@@ -139,7 +141,7 @@ async def generate_image(
         }
 
         # Submit job
-        result = await client.submit_job(config.seedream_endpoint_id, input_data)
+        result = await client.submit_job(SEEDREAM_ENDPOINT_ID, input_data)
         job_id = result.get("id")
 
         if not job_id:
@@ -147,7 +149,7 @@ async def generate_image(
 
         # Poll for completion
         completed = await client.poll_until_complete(
-            config.seedream_endpoint_id,
+            SEEDREAM_ENDPOINT_ID,
             job_id,
             max_wait_seconds
         )
@@ -289,7 +291,7 @@ async def edit_image(
             input_data["aspect_ratio"] = aspect_ratio
 
         # Submit job
-        result = await client.submit_job(config.nano_banana_endpoint_id, input_data)
+        result = await client.submit_job(NANO_BANANA_ENDPOINT_ID, input_data)
         job_id = result.get("id")
 
         if not job_id:
@@ -297,7 +299,7 @@ async def edit_image(
 
         # Poll for completion
         completed = await client.poll_until_complete(
-            config.nano_banana_endpoint_id,
+            NANO_BANANA_ENDPOINT_ID,
             job_id,
             max_wait_seconds
         )
@@ -364,9 +366,9 @@ async def check_job_status(
     try:
         # Map endpoint type to endpoint ID
         endpoint_id = (
-            config.seedream_endpoint_id
+            SEEDREAM_ENDPOINT_ID
             if endpoint_type == "seedream"
-            else config.nano_banana_endpoint_id
+            else NANO_BANANA_ENDPOINT_ID
         )
 
         logger.info(f"Checking status: job_id={job_id}, type={endpoint_type}")

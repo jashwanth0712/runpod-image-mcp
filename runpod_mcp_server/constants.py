@@ -1,5 +1,9 @@
 """Constants and validation rules for Runpod APIs."""
 
+# Endpoint IDs (fixed RunPod serverless endpoint slugs)
+SEEDREAM_ENDPOINT_ID = "seedream-v4-t2i"
+NANO_BANANA_ENDPOINT_ID = "nano-banana-pro-edit"
+
 # Seedream V4 T2I
 SEEDREAM_MIN_SIZE = 1024
 SEEDREAM_MAX_SIZE = 4096

@@ -5,7 +5,7 @@ An MCP server that gives Claude Code the ability to generate and edit images usi
 ## Prerequisites
 
 - [uv](https://docs.astral.sh/uv/) package manager
-- A [RunPod](https://runpod.io) API key and serverless endpoint IDs for Seedream V4 T2I and Nano Banana Pro Edit
+- A [RunPod](https://runpod.io) API key
 
 ## Quick Start (One Command)
 
@@ -14,8 +14,6 @@ Add the MCP server to Claude Code directly:
 ```bash
 claude mcp add runpod-image-apis \
   -e RUNPOD_API_KEY=your_api_key \
-  -e RUNPOD_SEEDREAM_ENDPOINT_ID=your_seedream_endpoint_id \
-  -e RUNPOD_NANO_BANANA_ENDPOINT_ID=your_nano_banana_endpoint_id \
   -- uvx runpod-mcp-server
 ```
 
@@ -39,9 +37,7 @@ Then add to your `.mcp.json` (project-level or `~/.claude/.mcp.json` for global)
       "command": "uv",
       "args": ["run", "--directory", "/path/to/runpod-image-mcp", "runpod-mcp-server"],
       "env": {
-        "RUNPOD_API_KEY": "your_api_key",
-        "RUNPOD_SEEDREAM_ENDPOINT_ID": "your_seedream_endpoint_id",
-        "RUNPOD_NANO_BANANA_ENDPOINT_ID": "your_nano_banana_endpoint_id"
+        "RUNPOD_API_KEY": "your_api_key"
       }
     }
   }
@@ -81,7 +77,7 @@ What sizes does the Seedream API support?
 
 ## Troubleshooting
 
-- **Server won't start** -- Verify your `RUNPOD_API_KEY` and endpoint IDs are correct.
+- **Server won't start** -- Verify your `RUNPOD_API_KEY` is correct.
 - **Job timeouts** -- Increase `max_wait_seconds` or use `check_job_status` to poll manually. Large images take longer.
 - **No image URL in response** -- Check the RunPod console for job details and endpoint health.
 
